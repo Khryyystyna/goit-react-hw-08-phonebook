@@ -1,10 +1,18 @@
-import css from './Form.module.css'
 import React from "react";
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContacts } from 'redux/operations';
 import { selectContacts } from 'redux/selectors';
 import { nanoid } from 'nanoid'
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  Card,
+  CardBody,
+  Button,
+  Center
+} from '@chakra-ui/react'
 
 export const Form = () => {
   const dispatch = useDispatch();
@@ -54,34 +62,50 @@ export const Form = () => {
   };
 
 
-    return (
-      <form onSubmit={handleSubmit} className={css.form}>
-        <label>
-          Name
-          <input className={css.input}
-            value={name}
+  return (
+          <Card
+      as="form"
+      onSubmit={handleSubmit}
+      autoComplete="off"
+      direction="column"
+      color='teal'
+      marginTop='50px'
+      marginBottom={4}>
+      <CardBody>
+        <FormControl>
+          <FormLabel marginTop='12px'>Name</FormLabel>
+          <Input value={name}
             type="text"
             name='name'
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Number
-          <input className={css.input}
-            value={number}
+            color='black'
+            onChange={handleChange}/>
+        </FormControl>
+        <FormControl>
+          <FormLabel marginTop='12px'>Number</FormLabel>
+          <Input value={number}
+            w='300px'
             type="tel"
             name="number"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
-            onChange={handleChange}
-          />
-        </label>
-
-        <button type="submit" className={css.btn}>Add contact</button>
-      </form>
+            color='black'
+            onChange={handleChange}/>
+        </FormControl>
+      </CardBody>
+         <Center w="100%" py="3">
+        <Button
+        type='submit'
+        to="/register"
+        colorScheme='teal'
+          size='md'
+      >
+        Add contact
+          </Button>
+          </Center>
+    </Card>
     )
   }

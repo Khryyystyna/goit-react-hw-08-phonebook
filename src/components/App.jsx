@@ -7,6 +7,7 @@ import { RestrictedRoute } from './RestrictedRoute';
 import { userRefresh } from 'redux/auth/operations';
 import { useAuth } from 'hooks';
 
+
 const HomePage = lazy(() => import('../pages/Home'));
 const RegisterPage = lazy(() => import('../pages/Register'));
 const LoginPage = lazy(() => import('../pages/Login'));
@@ -15,6 +16,8 @@ const ContactsPage = lazy(() => import('../pages/Contacts'));
 export const App = () => {
   const dispatch = useDispatch();
   const { isRefreshing } = useAuth();
+  
+  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     dispatch(userRefresh());
@@ -25,23 +28,27 @@ export const App = () => {
   ) : (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<HomePage />} />
+          <Route index element={<HomePage />} />
+        <Route
+                index
+                element={isLoggedIn ? <ContactsPage /> : <LoginPage />}
+          />
         <Route
           path="/register"
           element={
-            <RestrictedRoute redirectTo="/" component={<RegisterPage />} />
+            <RestrictedRoute redirectTo="/contacts" component={<RegisterPage />} />
           }
         />
         <Route
           path="/login"
           element={
-            <RestrictedRoute redirectTo="/" component={<LoginPage />} />
+            <RestrictedRoute redirectTo="/contacts" component={<LoginPage />} />
           }
         />
         <Route
           path="/contacts"
           element={
-            <PrivateRoute redirectTo="/" component={<ContactsPage />} />
+            <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
           }
         />
       </Route>

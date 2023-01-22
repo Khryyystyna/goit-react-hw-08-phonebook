@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { deleteContacts } from 'redux/operations';
 import { useSelector } from 'react-redux';
 import { selectVisibleContacts } from 'redux/selectors';
+import { Button, Stack} from '@chakra-ui/react'
+
 
 export const ContactsItem = ({id}) => {
     const dispatch = useDispatch();
@@ -13,12 +15,26 @@ export const ContactsItem = ({id}) => {
   
     return (
         <>
+              <Stack spacing={4}  flexDirection="column" 
+      justifyContent="space-between" >
             {contactsView.map(({ id, name, number }) => (
                 <li key={id} className={css.item}>
-                    {name}:{number}
-                    <button className={css.btn} type='submit'
-                onClick={()=>handleDelete(id)}>Delete</button>
-                </li>
+                    {name}:{number} 
+                    
+        <Button
+            type='submit'
+            to="/register"
+            size='md'
+            w='80px'
+            h='20px'
+            marginLeft='10px'
+            color='teal'
+        onClick={()=>handleDelete(id)}>
+        Delete
+      </Button>
+                
+                </li> 
             ))}
+                </Stack>
             </>
         )}

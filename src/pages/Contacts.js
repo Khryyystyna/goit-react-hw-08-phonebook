@@ -1,17 +1,16 @@
-import React from "react";
-import { Form } from "components/Form/Form";
-import { ContactsList } from "components/ContactsList/ContactsList";
-import { Filter } from "components/Filter/Filter";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchContacts } from "redux/operations";
-import { selectIsLoading, selectError, selectContacts } from 'redux/selectors';
+import { Form } from 'components/Form/Form';
+import { ContactsList } from 'components/ContactsList/ContactsList';
+import { Filter } from 'components/Filter/Filter';
 
-export const Contacts = () => {
+import { selectContacts } from 'redux/selectors';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchContacts } from 'redux/operations';
+import { Heading } from '@chakra-ui/react';
+
+const Contacts = () => {
+  const contactList = useSelector(selectContacts);
   const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
-  const contacts = useSelector(selectContacts);
 
   useEffect(() => {
     dispatch(fetchContacts());
@@ -19,12 +18,23 @@ export const Contacts = () => {
 
   return (
     <>
-      <h1>Phonebook</h1>
-      <Form />
-      <h2>Contacts</h2>
-      <Filter />
-      {contacts.length > 0 && <ContactsList />}
-      {isLoading && !error && <b>Request in progress...</b>}
+      <Form/>
+      <Filter/>
+      {contactList.length > 0 && (
+        <Heading
+          as='h3'
+          size='lg'
+          marginTop={4}
+          fontWeight="bold"
+          color='teal'
+          marginBottom={4}
+        >
+          Contacts
+        </Heading>
+      )}
+     <ContactsList/>
     </>
-  )
-}
+  );
+};
+
+export default Contacts;
